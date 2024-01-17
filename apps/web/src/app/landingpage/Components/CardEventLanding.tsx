@@ -8,7 +8,7 @@ const CardEventLanding = () => {
         <div className="flex justify-between px-6 py-4">
           <div className="font-semibold">
             <p>20 februari</p>
-            <p>price: IDR 20</p>
+            <p>price: IDR 10</p>
           </div>
           <div className=" pt-2">
             <div className=" justify-items-center font-semibold bg-black text-white rounded-full text-sm group-hover:bg-black group-hover:text-white">
