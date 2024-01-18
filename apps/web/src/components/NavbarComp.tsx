@@ -1,6 +1,8 @@
 'use client';
-import { logoutAction } from '@/lib/features/userSlice';
+import { loginAction, logoutAction } from '@/lib/features/userSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import axios from 'axios';
+import { Console } from 'console';
 import {
   Navbar,
   NavbarBrand,
@@ -14,6 +16,25 @@ import { useEffect, useState } from 'react';
 const NavbarComp = () => {
   const user = useAppSelector((state) => state.user);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const baseUrl = 'http://localhost:8000/api/';
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token_auth');
+    const keepLogin = async () => {
+      try {
+        const { data } = await axios.get(baseUrl + 'users/keeplogin', {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+        dispatch(loginAction(data.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    keepLogin();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,7 +60,7 @@ const NavbarComp = () => {
     scrollPosition > 0
       ? 'hover:border-white hover:border-b text-white text-lg'
       : 'hover:border-black hover:border-b text-black text-lg';
-  const dispatch = useAppDispatch();
+
   const handleLogout = () => {
     localStorage.removeItem('token_auth');
     dispatch(logoutAction());
