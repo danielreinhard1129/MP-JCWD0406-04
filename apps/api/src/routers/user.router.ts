@@ -15,6 +15,7 @@ export class UserRouter {
   private initializeRoutes(): void {
     this.router.post('/register', this.userController.registerUser);
     this.router.get('/:email', this.userController.getUserByEmail);
+    this.router.post('/login', this.userController.loginUser);
   }
 
   getRouter(): Router {

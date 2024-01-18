@@ -1,4 +1,5 @@
 import { getUserByEmailAction } from '@/actions/user/getUserByEmail.action';
+import { loginAction } from '@/actions/user/login.action';
 import { registerAction } from '@/actions/user/register.action';
 import { NextFunction, Request, Response } from 'express';
 
@@ -12,13 +13,19 @@ export class UserController {
       next(error);
     }
   }
-  async getUserByEmail (req: Request, res: Response, next: NextFunction) {
+  async getUserByEmail(req: Request, res: Response, next: NextFunction) {
     try {
-      const {email} = req.params
-      const result = await getUserByEmailAction(email)
-      res.status(result?.status as number).send(result)
+      const { email } = req.params;
+      const result = await getUserByEmailAction(email);
+      res.status(result?.status as number).send(result);
+    } catch (error) {}
+  }
+  async loginUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await loginAction(req.body);
+      return res.status(200).send(result);
     } catch (error) {
-      
+      next(error);
     }
   }
 }
