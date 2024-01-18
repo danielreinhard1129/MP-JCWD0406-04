@@ -8,7 +8,6 @@ import { IUser } from '@/types/user.type';
 
 export const keepLoginAction = async (email: string) => {
   try {
-    console.log(email);
     const user = await findUserByEmail(email);
     if (!user) throw new Error('account not found');
     const dataWithoutPassword = excludeFields(user, ['password']);

@@ -35,7 +35,6 @@ export class UserController {
   async keepLogin(req: Request, res: Response, next: NextFunction) {
     try {
       const email = req.user!.email;
-      console.log(email,"vrrrghtjtjtjyjyyuk");
       const result = await keepLoginAction(email as string);
       return res.status(200).send(result);
     } catch (error) {
