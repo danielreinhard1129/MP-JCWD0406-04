@@ -7,12 +7,12 @@ const PromoterDashboard = () => {
   const user = useAppSelector((state) => state.user);
   const router = useRouter();
   useEffect(() => {
-    if (!user.id || user.role === 'customer') {
+    if (!user.id || user.role.name === 'customer') {
       router.push('/');
     } else {
       router.push('/promoters');
     }
-  },[]);
+  }, []);
 
   return <div>PromoterDashboard</div>;
 };

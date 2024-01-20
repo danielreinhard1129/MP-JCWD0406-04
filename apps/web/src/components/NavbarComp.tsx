@@ -37,7 +37,7 @@ const NavbarComp = () => {
     };
     keepLogin();
   }, []);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       const position = window.scrollY;
@@ -66,7 +66,7 @@ const NavbarComp = () => {
   const handleLogout = () => {
     localStorage.removeItem('token_auth');
     dispatch(logoutAction());
-    router.push("/login")
+    router.push('/login');
   };
   return (
     <div className="sticky top-0 z-50 " style={navbarStyle}>
