@@ -11,6 +11,7 @@ import {
   NavbarToggle,
 } from 'flowbite-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const NavbarComp = () => {
@@ -18,6 +19,7 @@ const NavbarComp = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const baseUrl = 'http://localhost:8000/api/';
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('token_auth');
@@ -25,7 +27,7 @@ const NavbarComp = () => {
       try {
         const { data } = await axios.get(baseUrl + 'users/keeplogin', {
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         dispatch(loginAction(data.data));
@@ -64,6 +66,7 @@ const NavbarComp = () => {
   const handleLogout = () => {
     localStorage.removeItem('token_auth');
     dispatch(logoutAction());
+    router.push('/login');
   };
   return (
     <div className="sticky top-0 z-50 " style={navbarStyle}>
