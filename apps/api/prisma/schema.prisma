@@ -21,6 +21,7 @@ model Sample {
 }
 
 model User {
+
   id             Int              @id @default(autoincrement())
   email          String           @unique
   firstName      String
@@ -33,6 +34,7 @@ model User {
   role           Role?
   CouponDiscount CouponDiscount?
   ReferralPoints ReferralPoints[] @relation("Referrer")
+
 }
 
 model Role {
@@ -40,6 +42,7 @@ model Role {
   name   String
   userId Int    @unique
   user   User   @relation(fields: [userId], references: [id])
+
 }
 
 model CouponDiscount {
@@ -60,4 +63,5 @@ model ReferralPoints {
   dateEarned     DateTime @default(now())
   expiresOn      DateTime
   referrerUser   User     @relation("Referrer", fields: [referrerUserId], references: [id])
+
 }

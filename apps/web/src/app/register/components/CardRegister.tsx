@@ -42,6 +42,7 @@ const CardRegister = () => {
   const [showFullForm, setShowFullForm] = useState(false);
   const [inputReferral, setInputReferral] = useState('');
 
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -290,6 +291,7 @@ const CardRegister = () => {
                   placeholder=" "
                   onChange={(e) => setInputReferral(e.target.value)}
                   value={inputReferral}
+
                 />
                 <label
                   htmlFor="referralCode"

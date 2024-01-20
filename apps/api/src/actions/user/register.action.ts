@@ -11,6 +11,7 @@ import { addMonths, format } from 'date-fns';
 
 export const registerAction = async (data: IUser) => {
   try {
+
     const userReferral = await findUserByReferralCode(data.referralCode);
 
     if (!userReferral)
@@ -18,6 +19,7 @@ export const registerAction = async (data: IUser) => {
     const { email, firstName, lastName, password, role } = data;
     const isExist = await findUserByEmail(email);
     if (isExist) throw new Error('email already exist');
+
 
     const hashedPassword = await hashPassword(password);
     data.password = hashedPassword;
