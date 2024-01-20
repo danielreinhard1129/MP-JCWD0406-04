@@ -41,7 +41,6 @@ const CardRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showFullForm, setShowFullForm] = useState(false);
   const [inputReferral, setInputReferral] = useState('');
-  const [success, setSuccess] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -77,6 +76,19 @@ const CardRegister = () => {
       }
     },
   });
+
+  const handleCheck = async () => {
+    try {
+      const data = await axios.post(baseUrl + `/reward/check-referralcode`, {
+        referralCode: inputReferral,
+      });
+      console.log(data);
+      alert('referral code is found');
+    } catch (error) {
+      console.log(error);
+      alert('referral code is not found');
+    }
+  };
 
   const handleContinue = async () => {
     try {
@@ -269,23 +281,29 @@ const CardRegister = () => {
                   )}
                 </div>
               </div>
-              <div className="relative flex-1 ml-2">
+              <div className="relative flex flex-1 ">
                 <input
-                  id="codeReferral"
+                  id="referralCode"
                   type="text"
-                  aria-describedby="codeReferralHelp"
+                  aria-describedby="referralCodeHelp"
                   className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-600 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
                   placeholder=" "
                   onChange={(e) => setInputReferral(e.target.value)}
                   value={inputReferral}
-                  disabled={success}
                 />
                 <label
-                  htmlFor="codeReferral"
+                  htmlFor="referralCode"
                   className="absolute text-sm text-gray-700 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-[#f7f7f7] dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                 >
-                  Code Referral (optional)
+                  Referral Code (optional)
                 </label>
+                <button
+                  className="border-2 ml-4 rounded-lg p-2 text-sm"
+                  onClick={handleCheck}
+                  type="button"
+                >
+                  Check
+                </button>
               </div>
             </>
           )}
