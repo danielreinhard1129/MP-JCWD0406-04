@@ -1,14 +1,13 @@
 'use client';
 
+import Image from 'next/image';
 import axios, { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
-import EventShowcase from '../../../components/EventShowcase';
-import { useAppSelector } from '@/lib/hooks';
 
 YupPassword(yup);
 
@@ -32,27 +31,14 @@ const validationSchema = yup.object().shape({
     .min(8, 'Your password must be at least 8 characters')
     .minLowercase(1)
     .minUppercase(1),
-  role: yup.string().required('Role is required'),
-  referralCode: yup.string().notRequired(),
 });
 
 const CardRegister = () => {
-  const selector = useAppSelector((state) => state.user);
-
   const baseUrl = 'http://localhost:8000/api';
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [showFullForm, setShowFullForm] = useState(false);
-  const [inputReferral, setInputReferral] = useState('');
-
-  useEffect(() => {
-    if (selector.role.name === 'customer') {
-      router.push('/');
-    }
-    if (selector.role.name === 'promoter') {
-      router.push('/promoters');
-    }
-  }, [selector]);
+  const [showFullForm, setShowFullForm] = useState(false); // State variable for showing the full form
+  const [userRole, setUserRole] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -61,8 +47,7 @@ const CardRegister = () => {
       firstName: '',
       lastName: '',
       password: '',
-      role: '',
-      referralCode: '',
+      codeReferral: '',
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -73,10 +58,7 @@ const CardRegister = () => {
           firstName: values.firstName,
           lastName: values.lastName,
           password: values.password,
-          role: {
-            name: values.role,
-          },
-          referralCode: inputReferral,
+          role: userRole,
         });
         alert('Register Success');
         router.push('/login');
@@ -88,19 +70,6 @@ const CardRegister = () => {
       }
     },
   });
-
-  const handleCheck = async () => {
-    try {
-      const data = await axios.post(baseUrl + `/reward/check-referralcode`, {
-        referralCode: inputReferral,
-      });
-      console.log(data);
-      alert('referral code is found');
-    } catch (error) {
-      console.log(error);
-      alert('referral code is not found');
-    }
-  };
 
   const handleContinue = async () => {
     try {
@@ -178,27 +147,6 @@ const CardRegister = () => {
                   </p>
                 )}
               </div>
-              <div className="relative mb-4">
-                <select
-                  id="role"
-                  name="role"
-                  className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-600 focus:outline-none focus:ring-0 focus:border-gray-600"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.role}
-                  required
-                >
-                  <option value="">Select Role</option>
-                  <option value="customer">Customer</option>
-                  <option value="promoter">Promoter</option>
-                </select>
-                {formik.touched.role && formik.errors.role && (
-                  <p className="text-red-500 text-xs italic">
-                    {formik.errors.role}
-                  </p>
-                )}
-              </div>
-
               <div className="flex mb-4">
                 <div className="relative flex-1 mr-2">
                   <input
@@ -293,29 +241,23 @@ const CardRegister = () => {
                   )}
                 </div>
               </div>
-              <div className="relative flex flex-1 ">
+              <div className="relative flex-1 ml-2">
                 <input
-                  id="referralCode"
+                  id="codeReferral"
                   type="text"
-                  aria-describedby="referralCodeHelp"
+                  aria-describedby="codeReferralHelp"
                   className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-600 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
                   placeholder=" "
-                  onChange={(e) => setInputReferral(e.target.value)}
-                  value={inputReferral}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.codeReferral}
                 />
                 <label
-                  htmlFor="referralCode"
+                  htmlFor="codeReferral"
                   className="absolute text-sm text-gray-700 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-[#f7f7f7] dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                 >
-                  Referral Code (optional)
+                  Code Referral (optional)
                 </label>
-                <button
-                  className="border-2 ml-4 rounded-lg p-2 text-sm"
-                  onClick={handleCheck}
-                  type="button"
-                >
-                  Check
-                </button>
               </div>
             </>
           )}
@@ -355,7 +297,29 @@ const CardRegister = () => {
           </p>
         </form>
       </div>
-      <EventShowcase />
+
+      <div
+        className=" w-1/2 relative p-24"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <Image
+          src="/exhibition.jpeg"
+          alt="Background"
+          layout="fill"
+          objectFit="cover"
+        />
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute p-10 text-white">
+          <h1 className="text-5xl font-bold mt-19 pt-4">
+            PERFORMING & VISUAL ARTS
+          </h1>
+          <p className="text-xl mt-2 mb-96">More than 20,000 events</p>
+          <p className="text-lg ">Finally, all your events in one place.</p>
+        </div>
+      </div>
     </div>
   );
 };
