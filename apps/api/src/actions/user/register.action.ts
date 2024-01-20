@@ -6,7 +6,7 @@ import { IUser } from '@/types/user.type';
 
 export const registerAction = async (data: IUser) => {
   try {
-    const { email, firstName, lastName, password } = data;
+    const { email, firstName, lastName, password, role } = data;
     const user = await findUserByEmail(email);
     if (user) throw new Error('email already exist');
 

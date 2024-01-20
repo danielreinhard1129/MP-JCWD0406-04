@@ -31,13 +31,17 @@ const validationSchema = yup.object().shape({
     .min(8, 'Your password must be at least 8 characters')
     .minLowercase(1)
     .minUppercase(1),
+  role: yup.string().required('Role is required'),
+  codeReferral: yup.string().notRequired(),
 });
 
 const CardRegister = () => {
   const baseUrl = 'http://localhost:8000/api';
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [showFullForm, setShowFullForm] = useState(false); // State variable for showing the full form
+  const [showFullForm, setShowFullForm] = useState(false);
+  const [inputReferral, setInputReferral] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -46,6 +50,7 @@ const CardRegister = () => {
       firstName: '',
       lastName: '',
       password: '',
+      role: '',
       codeReferral: '',
     },
     validationSchema,
@@ -57,6 +62,10 @@ const CardRegister = () => {
           firstName: values.firstName,
           lastName: values.lastName,
           password: values.password,
+          role: {
+            name: values.role,
+          },
+          referralCode: inputReferral,
         });
         alert('Register Success');
         router.push('/login');
@@ -76,7 +85,7 @@ const CardRegister = () => {
           baseUrl + `/users/${formik.values.email}`,
         );
 
-        alert("silakan login bro akun sudah ada")
+        alert('silakan login bro akun sudah ada');
       }
     } catch (error) {
       console.log(error);
@@ -145,6 +154,27 @@ const CardRegister = () => {
                   </p>
                 )}
               </div>
+              <div className="relative mb-4">
+                <select
+                  id="role"
+                  name="role"
+                  className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-600 focus:outline-none focus:ring-0 focus:border-gray-600"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.role}
+                  required
+                >
+                  <option value="">Select Role</option>
+                  <option value="customer">Customer</option>
+                  <option value="promoter">Promoter</option>
+                </select>
+                {formik.touched.role && formik.errors.role && (
+                  <p className="text-red-500 text-xs italic">
+                    {formik.errors.role}
+                  </p>
+                )}
+              </div>
+
               <div className="flex mb-4">
                 <div className="relative flex-1 mr-2">
                   <input
@@ -246,9 +276,9 @@ const CardRegister = () => {
                   aria-describedby="codeReferralHelp"
                   className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-600 focus:outline-none focus:ring-0 focus:border-gray-600 peer"
                   placeholder=" "
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.codeReferral}
+                  onChange={(e) => setInputReferral(e.target.value)}
+                  value={inputReferral}
+                  disabled={success}
                 />
                 <label
                   htmlFor="codeReferral"
