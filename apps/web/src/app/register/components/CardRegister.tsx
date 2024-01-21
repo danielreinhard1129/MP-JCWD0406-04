@@ -1,13 +1,14 @@
 'use client';
 
-import Image from 'next/image';
 import axios, { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
+import EventShowcase from '../../../components/EventShowcase';
+import { useAppSelector } from '@/lib/hooks';
 
 YupPassword(yup);
 
@@ -32,16 +33,26 @@ const validationSchema = yup.object().shape({
     .minLowercase(1)
     .minUppercase(1),
   role: yup.string().required('Role is required'),
-  codeReferral: yup.string().notRequired(),
+  referralCode: yup.string().notRequired(),
 });
 
 const CardRegister = () => {
+  const selector = useAppSelector((state) => state.user);
+
   const baseUrl = 'http://localhost:8000/api';
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showFullForm, setShowFullForm] = useState(false);
   const [inputReferral, setInputReferral] = useState('');
 
+  useEffect(() => {
+    if (selector.role.name === 'customer') {
+      router.push('/');
+    }
+    if (selector.role.name === 'promoter') {
+      router.push('/promoters');
+    }
+  }, [selector]);
 
   const formik = useFormik({
     initialValues: {
@@ -51,7 +62,7 @@ const CardRegister = () => {
       lastName: '',
       password: '',
       role: '',
-      codeReferral: '',
+      referralCode: '',
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -345,29 +356,7 @@ const CardRegister = () => {
           </p>
         </form>
       </div>
-
-      <div
-        className=" w-1/2 relative p-24"
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Image
-          src="/exhibition.jpeg"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-        />
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="absolute p-10 text-white">
-          <h1 className="text-5xl font-bold mt-19 pt-4">
-            PERFORMING & VISUAL ARTS
-          </h1>
-          <p className="text-xl mt-2 mb-96">More than 20,000 events</p>
-          <p className="text-lg ">Finally, all your events in one place.</p>
-        </div>
-      </div>
+      <EventShowcase />
     </div>
   );
 };

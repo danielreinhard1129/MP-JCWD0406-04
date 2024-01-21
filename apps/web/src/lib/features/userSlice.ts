@@ -38,6 +38,7 @@ export const userSlice = createSlice({
       state.id = 0;
       state.email = '';
       state.isDeleted = false;
+      state.role.name = '';
     },
   },
 });
