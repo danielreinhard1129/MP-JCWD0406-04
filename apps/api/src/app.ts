@@ -10,6 +10,7 @@ import cors from 'cors';
 import { PORT } from './config';
 import { SampleRouter } from './routers/sample.router';
 import { UserRouter } from './routers/user.router';
+import { RewardRouter } from './routers/reward.router';
 
 export default class App {
   private app: Express;
@@ -53,6 +54,7 @@ export default class App {
   private routes(): void {
     const sampleRouter = new SampleRouter();
     const userRouter = new UserRouter();
+    const rewardRouter = new RewardRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student !`);
@@ -60,6 +62,7 @@ export default class App {
 
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/users', userRouter.getRouter());
+    this.app.use('/api/reward', rewardRouter.getRouter());
   }
 
   public start(): void {
