@@ -5,13 +5,14 @@ import axios, { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { useDispatch } from 'react-redux';
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { loginAction } from '@/lib/features/userSlice';
 import { Toast } from 'flowbite-react';
+import EventShowcase from '@/components/EventShowcase';
 
 YupPassword(yup);
 
@@ -31,9 +32,19 @@ const validationSchema = yup.object().shape({
 
 const CardLogin = () => {
   const baseUrl = 'http://localhost:8000/api';
-  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAppDispatch();
+  const selector = useAppSelector((state) => state.user);
+  const router = useRouter();
+  useEffect(() => {
+    if (selector.role.name === 'customer') {
+      router.push('/');
+    }
+    if (selector.role.name === 'promoter') {
+      router.push('/promoters');
+    }
+  }, [selector]);
 
   const formik = useFormik({
     initialValues: {
@@ -157,37 +168,20 @@ const CardLogin = () => {
           >
             Login
           </button>
-
           <p className=" mt-4">
+            {"Don't have an account? "}
+            <Link href="/register" className="font-bold hover:underline">
+              Register
+            </Link>
+          </p>
+          <p className=" mt-10 text-sm">
             <Link href="/forgot-password" className="font-bold hover:underline">
               Forgot password?
             </Link>
           </p>
         </form>
       </div>
-
-      <div
-        className=" w-1/2 relative p-24"
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Image
-          src="/exhibition.jpeg"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-        />
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="absolute p-10 text-white">
-          <h1 className="text-5xl font-bold mt-19 pt-4">
-            PERFORMING & VISUAL ARTS
-          </h1>
-          <p className="text-xl mt-2 mb-96">More than 20,000 events</p>
-          <p className="text-lg ">Finally, all your events in one place.</p>
-        </div>
-      </div>
+      <EventShowcase />
     </div>
   );
 };

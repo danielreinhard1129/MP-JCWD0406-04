@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '@/lib/hooks';
 import { loginAction } from '@/lib/features/userSlice';
 import { Toast } from 'flowbite-react';
+import EventShowcase from '@/components/EventShowcase';
 
 YupPassword(yup);
 
@@ -100,29 +101,7 @@ const CardForgotPassword = () => {
           </button>
         </form>
       </div>
-
-      <div
-        className=" w-1/2 relative p-24"
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Image
-          src="/exhibition.jpeg"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-        />
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="absolute p-10 text-white">
-          <h1 className="text-5xl font-bold mt-19 pt-4">
-            PERFORMING & VISUAL ARTS
-          </h1>
-          <p className="text-xl mt-2 mb-96">More than 20,000 events</p>
-          <p className="text-lg ">Finally, all your events in one place.</p>
-        </div>
-      </div>
+      <EventShowcase />
     </div>
   );
 };

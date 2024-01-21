@@ -19,6 +19,9 @@ export const createUser = async (data: IUser) => {
         },
 
       },
+      include: {
+        role: true,
+      },
     });
     return result;
   } catch (error) {

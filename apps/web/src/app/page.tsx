@@ -1,7 +1,5 @@
 'use client';
-import Image from 'next/image';
-import styles from './page.module.css';
-import { Button } from 'flowbite-react';
+
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
 import { useEffect } from 'react';
