@@ -1,9 +1,6 @@
-import React from 'react';
 import Hero from './Components/Hero';
-import UniqEvent from './Components/UniqEvent';
-import CardEvent from './Components/CardEvent';
 import ThisWeekendEvent from './Components/ThisWeekendEvent';
-import CardEventLanding from './Components/CardEventLanding';
+import UniqEvent from './Components/UniqEvent';
 
 const LandingPage = () => {
   return (
