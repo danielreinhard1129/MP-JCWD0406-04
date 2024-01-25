@@ -1,14 +1,14 @@
 import React from 'react';
-import CardLogin from './components/CardLogin';
+import CardResetPassword from './components/CardResetPassword';
 
-const Register = () => {
+const ResetPassword = () => {
   return (
     <main className="w-screen h-full bg-[#d3c4ba]">
       <section className=" flex items-center justify-center ">
-        <CardLogin />
+        <CardResetPassword />
       </section>
     </main>
   );
 };
 
-export default Register;
+export default ResetPassword;

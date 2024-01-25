@@ -1,20 +1,20 @@
 'use client';
-
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
-import { useEffect } from 'react';
 
-export default function Home() {
+const PromoterDashboard = () => {
   const user = useAppSelector((state) => state.user);
   const router = useRouter();
   useEffect(() => {
-    if (user.role.name === 'customer') {
+    if (!user.id || user.role.name === 'customer') {
       router.push('/');
-    }
-    if (user.role.name === 'promoter') {
+    } else {
       router.push('/promoters');
     }
   }, []);
 
-  return <main className="container max-w-7xl px-4 mx-auto"></main>;
-}
+  return <div>PromoterDashboard</div>;
+};
+
+export default PromoterDashboard;
