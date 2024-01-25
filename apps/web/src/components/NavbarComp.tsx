@@ -69,12 +69,15 @@ const NavbarComp = () => {
     router.push('/login');
   };
   return (
-    <div className="sticky top-0 z-50 " style={navbarStyle}>
-      <Navbar fluid className="container mx-auto max-w-7xl bg-transparent p-5 ">
+    <div
+      className="sticky top-0 z-50 bg-opacity-80 backdrop-blur-sm bg-transparent  "
+      style={navbarStyle}
+    >
+      <Navbar fluid className="bg-transparent mx-40 ">
         <NavbarBrand as={Link} href="/">
           <span
             style={textStyle}
-            className="self-center whitespace-nowrap text-[40px] font-semibold dark:text-white "
+            className="self-center whitespace-nowrap text-[30px] font-semibold dark:text-white "
           >
             TICKETS.UK
           </span>
