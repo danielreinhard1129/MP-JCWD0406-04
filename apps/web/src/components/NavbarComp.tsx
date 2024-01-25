@@ -81,7 +81,7 @@ const NavbarComp = () => {
         <NavbarBrand as={Link} href="/">
           <span
             style={textStyle}
-            className="self-center whitespace-nowrap text-[40px] font-semibold dark:text-white "
+            className="self-center whitespace-nowrap text-[30px] font-semibold dark:text-white "
           >
             TICKETS.UK
           </span>
