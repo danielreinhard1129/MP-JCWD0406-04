@@ -2,7 +2,8 @@
 import { loginAction, logoutAction } from '@/lib/features/userSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import axios from 'axios';
-import { Console } from 'console';
+import { Dropdown } from 'flowbite-react';
+import { HiLogout } from 'react-icons/hi';
 import {
   Navbar,
   NavbarBrand,
@@ -68,8 +69,14 @@ const NavbarComp = () => {
     dispatch(logoutAction());
     router.push('/login');
   };
+
   return (
-    <div className="sticky top-0 z-50 " style={navbarStyle}>
+    <div
+      className={`${
+        user.role.name === 'customer' ? 'sticky top-0' : ''
+      } z-50 w-screen`}
+      style={navbarStyle}
+    >
       <Navbar fluid className="container mx-auto max-w-7xl bg-transparent p-5 ">
         <NavbarBrand as={Link} href="/">
           <span
@@ -81,17 +88,17 @@ const NavbarComp = () => {
         </NavbarBrand>
         <NavbarToggle />
         <NavbarCollapse>
-          <NavbarLink
-            as={Link}
-            href="/"
-            style={textStyle}
-            className={linkClassName}
-          >
-            Home
-          </NavbarLink>
-
           {!user.id ? (
             <>
+              <NavbarLink
+                as={Link}
+                href="/"
+                style={textStyle}
+                className={linkClassName}
+              >
+                Home
+              </NavbarLink>
+
               <NavbarLink
                 as={Link}
                 href="/login"
@@ -111,21 +118,18 @@ const NavbarComp = () => {
             </>
           ) : (
             <>
-              <NavbarLink
-                as={Link}
-                href="/login"
-                style={textStyle}
-                className={linkClassName}
-              >
-                Profile
-              </NavbarLink>
-              <NavbarLink
-                onClick={handleLogout}
-                style={textStyle}
-                className={linkClassName}
-              >
-                Logout
-              </NavbarLink>
+              <Dropdown label="Profile" style={{ backgroundColor: '#ff4b00' }}>
+                <Dropdown.Header>
+                  <span className="block text-sm">{user.firstName}</span>
+                  <span className="block truncate text-sm font-medium">
+                    {user.email}
+                  </span>
+                </Dropdown.Header>
+                <Dropdown.Divider />
+                <Dropdown.Item icon={HiLogout} onClick={handleLogout}>
+                  Sign out
+                </Dropdown.Item>
+              </Dropdown>
             </>
           )}
         </NavbarCollapse>

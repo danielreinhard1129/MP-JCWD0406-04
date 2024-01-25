@@ -10,7 +10,8 @@ export const loginAction = async (data: IUser) => {
   try {
     const { email, password } = data;
     const user = await findUserByEmail(email);
-    if (!user) throw new Error('account not found');
+    if (!user)
+      throw new Error('There is no account associated with the email.');
 
     const isPasswordValid = await comparePasswords(password, user.password);
     if (!isPasswordValid) throw new Error('Invalid password');

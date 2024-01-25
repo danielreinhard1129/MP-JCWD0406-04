@@ -1,20 +1,13 @@
 'use client';
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAppSelector } from '@/lib/hooks';
+import PromoterDashboard from './components/PromoterDashboard';
+import { PromoterGuard } from '@/lib/HOC/PromotersGuard';
 
-const PromoterDashboard = () => {
-  const user = useAppSelector((state) => state.user);
-  const router = useRouter();
-  useEffect(() => {
-    if (!user.id || user.role.name === 'customer') {
-      router.push('/');
-    } else {
-      router.push('/promoters');
-    }
-  }, []);
-
-  return <div>PromoterDashboard</div>;
+const Promoters = () => {
+  return (
+    <div>
+      <PromoterDashboard />
+    </div>
+  );
 };
 
-export default PromoterDashboard;
+export default PromoterGuard(Promoters);

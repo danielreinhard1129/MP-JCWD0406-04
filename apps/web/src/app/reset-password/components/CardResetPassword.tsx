@@ -1,18 +1,14 @@
 'use client';
 
-import Image from 'next/image';
 import axios, { AxiosError } from 'axios';
 import { useFormik } from 'formik';
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
-import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '@/lib/hooks';
-import { loginAction } from '@/lib/features/userSlice';
-import { Toast } from 'flowbite-react';
 import EventShowcase from '@/components/EventShowcase';
+import { baseUrl } from '@/lib/baseUrl';
 
 YupPassword(yup);
 
@@ -33,7 +29,6 @@ const validationSchema = yup.object().shape({
 });
 
 const CardResetPassword = () => {
-  const baseUrl = 'http://localhost:8000/api';
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -65,8 +60,6 @@ const CardResetPassword = () => {
 
         alert('reset password success');
         router.push('/login');
-
-        //   console.log(userData);
       } catch (error) {
         if (error instanceof AxiosError) {
           const errorMsg = error.response?.data || error.message;
@@ -77,8 +70,11 @@ const CardResetPassword = () => {
   });
 
   return (
-    <div className="flex h-screen w-full">
-      <div className="w-1/2 p-56 pt-40" style={{ background: '#F7F7F7' }}>
+    <div className="md:flex md:h-screen w-full">
+      <div
+        className="md:w-1/2 md:p-56 p-4 md:pt-40"
+        style={{ background: '#F7F7F7' }}
+      >
         <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-6 leading-tight">
           Reset Password
         </h1>

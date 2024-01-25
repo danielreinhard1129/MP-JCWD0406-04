@@ -1,86 +1,25 @@
 'use client';
 
-import Image from 'next/image';
-import axios, { AxiosError } from 'axios';
-import { useFormik } from 'formik';
+import { ToastContainer } from 'react-toastify';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import * as yup from 'yup';
-import YupPassword from 'yup-password';
-import { useDispatch } from 'react-redux';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { loginAction } from '@/lib/features/userSlice';
-import { Toast } from 'flowbite-react';
 import EventShowcase from '@/components/EventShowcase';
-
-YupPassword(yup);
-
-const validationSchema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Invalid email address')
-    .required('Email cannot be empty'),
-
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(8, 'Your password must be at least 8 characters')
-    .minLowercase(1)
-    .minUppercase(1),
-});
+import 'react-toastify/dist/ReactToastify.css';
+import useFormikLogin from '@/hooks/useFormikLogin';
+import { AuthGuard } from '@/lib/HOC/AuthGuard';
+import { useState } from 'react';
 
 const CardLogin = () => {
-  const baseUrl = 'http://localhost:8000/api';
-
   const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useAppDispatch();
-  const selector = useAppSelector((state) => state.user);
-  const router = useRouter();
-  useEffect(() => {
-    if (selector.role.name === 'customer') {
-      router.push('/');
-    }
-    if (selector.role.name === 'promoter') {
-      router.push('/promoters');
-    }
-  }, [selector]);
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const { email, password } = values;
-        const { data } = await axios.post(baseUrl + '/users/login', {
-          email,
-          password,
-        });
-        console.log(data.data.role.name);
-        if (data.data.role.name === 'customer') {
-          router.push('/');
-        }
+  const formik = useFormikLogin();
 
-        dispatch(loginAction(data.data));
-        localStorage.setItem('token_auth', data.token);
-        alert('login success');
-        router.push('/promoters');
-
-        //   console.log(userData);
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          const errorMsg = error.response?.data || error.message;
-          alert(errorMsg);
-        }
-      }
-    },
-  });
   return (
-    <div className="flex h-screen w-full">
-      <div className="w-1/2 p-56 pt-40" style={{ background: '#F7F7F7' }}>
+    <div className="md:flex md:h-screen w-full">
+      <ToastContainer />
+      <div
+        className="md:w-1/2 md:p-56 p-4 md:pt-40"
+        style={{ background: '#F7F7F7' }}
+      >
         <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-6 leading-tight">
           Welcome Back
         </h1>
@@ -186,4 +125,4 @@ const CardLogin = () => {
   );
 };
 
-export default CardLogin;
+export default AuthGuard(CardLogin);
