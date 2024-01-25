@@ -30,6 +30,8 @@ export const registerAction = async (data: IUser) => {
       }
       if (!userReferral)
         return { status: 404, message: 'Referral code is not found' };
+
+
       const currentDate = new Date();
       const futureDate = addMonths(currentDate, 3);
       const formatDate = format(futureDate, 'yyyy-MM-dd HH:mm:ss');

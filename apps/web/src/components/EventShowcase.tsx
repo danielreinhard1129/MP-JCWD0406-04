@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -32,7 +31,7 @@ const EventShowcase = () => {
 
   return (
     <div
-      className="w-1/2 relative  "
+      className="md:w-1/2 relative "
       style={{
         display: 'flex',
         justifyContent: 'center',
@@ -54,7 +53,7 @@ const EventShowcase = () => {
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="relative">
+            <div className="relative md:block hidden">
               <Image
                 src={slide.image}
                 alt={slide.title}
