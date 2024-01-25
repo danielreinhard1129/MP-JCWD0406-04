@@ -1,5 +1,4 @@
 import { findUserByReferralCode } from '@/repositories/reward/findUserByReferralCode';
-import { findUserByEmail } from '@/repositories/user/findUserByEmail';
 
 export const findUserByReferralCodeAction = async (referralCode: string) => {
   try {
