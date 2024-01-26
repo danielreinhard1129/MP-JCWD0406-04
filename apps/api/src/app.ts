@@ -11,6 +11,7 @@ import { PORT } from './config';
 import { SampleRouter } from './routers/sample.router';
 import { UserRouter } from './routers/user.router';
 import { RewardRouter } from './routers/reward.router';
+import { EventRouter } from './routers/event.router';
 
 export default class App {
   private app: Express;
@@ -55,6 +56,7 @@ export default class App {
     const sampleRouter = new SampleRouter();
     const userRouter = new UserRouter();
     const rewardRouter = new RewardRouter();
+    const eventRouter = new EventRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student !`);
@@ -63,6 +65,7 @@ export default class App {
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/users', userRouter.getRouter());
     this.app.use('/api/reward', rewardRouter.getRouter());
+    this.app.use('/api/events', eventRouter.getRouter());
   }
 
   public start(): void {

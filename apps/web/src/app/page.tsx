@@ -3,6 +3,9 @@
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
 import { useEffect } from 'react';
+import Hero from './(landingpage)/Components/Hero';
+import ThisEvent from './(landingpage)/Components/ThisEvent';
+import UniqEvent from './(landingpage)/Components/UniqEvent';
 
 export default function Home() {
   const user = useAppSelector((state) => state.user);
@@ -16,5 +19,11 @@ export default function Home() {
     }
   }, []);
 
-  return <main className="container max-w-7xl px-4 mx-auto"></main>;
+  return (
+    <main>
+      <Hero />
+      <ThisEvent />
+      <UniqEvent />
+    </main>
+  );
 }
