@@ -21,10 +21,8 @@ model Sample {
 }
 
 model User {
-
   id             Int             @id @default(autoincrement())
   email          String          @unique
-
   firstName      String
   lastName       String
   referralCode   String          @unique
@@ -34,9 +32,7 @@ model User {
   isDeleted      Boolean         @default(false)
   role           Role?
   CouponDiscount CouponDiscount?
-
   points         ReferralPoints?
-
   Event          Event[]
 }
 
@@ -109,7 +105,6 @@ model CouponDiscount {
 }
 
 model ReferralPoints {
-
   id          Int      @id @default(autoincrement())
   userId      Int      @unique
   pointEarned Int
@@ -117,5 +112,4 @@ model ReferralPoints {
   expiresOn   DateTime
   isUsed      Boolean  @default(false)
   user        User     @relation(fields: [userId], references: [id])
-
 }

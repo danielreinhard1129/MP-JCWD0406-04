@@ -26,7 +26,6 @@ export const registerAction = async (data: IUser) => {
     data.referralCode = nanoid();
 
     const user = await createUser(data);
-
     if (referred && data.role.name !== 'promoter') {
       const userReferral = await findUserByReferralCode(referred);
       console.log(userReferral);

@@ -211,9 +211,13 @@ const Transactions = () => {
                     modalAction === 'accept' ? confirmAccept : confirmDecline
                   }
                 >
+<<<<<<< HEAD
 
                   {"Yes, I'm sure"}
 
+=======
+                  {"Yes, I'm sure"}
+>>>>>>> 21e3944 (fix: referral code)
                 </Button>
                 <Button color="gray" onClick={() => setOpenModal(false)}>
                   No, cancel

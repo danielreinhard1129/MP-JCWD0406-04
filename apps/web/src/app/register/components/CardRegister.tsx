@@ -71,10 +71,15 @@ const CardRegister = () => {
           },
           referralCode: inputReferral,
         });
+<<<<<<< HEAD
 
         console.log(data);
 
 
+=======
+        console.log(data);
+
+>>>>>>> 21e3944 (fix: referral code)
         toast.success('Register Success', {
           position: 'top-center',
           autoClose: 2000,
@@ -87,9 +92,13 @@ const CardRegister = () => {
         console.log(error);
 
         if (error instanceof AxiosError) {
+<<<<<<< HEAD
 
           const errorMsg = error.response?.data.message || error.message;
 
+=======
+          const errorMsg = error.response?.data.message || error.message;
+>>>>>>> 21e3944 (fix: referral code)
 
           alert(errorMsg);
         }
@@ -97,7 +106,10 @@ const CardRegister = () => {
     },
   });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 21e3944 (fix: referral code)
   const handleContinue = async () => {
     try {
       if (formik.values.email.includes('@')) {
