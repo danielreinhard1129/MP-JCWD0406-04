@@ -1,8 +1,34 @@
 'use client';
 import { CustomerGuard } from '@/lib/HOC/CustomerGuard';
 
-function Home() {
-  return <main className="container max-w-7xl px-4 mx-auto"></main>;
+
+import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/lib/hooks';
+import { useEffect } from 'react';
+import Hero from './(landingpage)/Components/Hero';
+import ThisEvent from './(landingpage)/Components/ThisEvent';
+import UniqEvent from './(landingpage)/Components/UniqEvent';
+
+export default function Home() {
+  const user = useAppSelector((state) => state.user);
+  const router = useRouter();
+  useEffect(() => {
+    if (user.role.name === 'customer') {
+      router.push('/');
+    }
+    if (user.role.name === 'promoter') {
+      router.push('/promoters');
+    }
+  }, []);
+
+  return (
+    <main>
+      <Hero />
+      <ThisEvent />
+      <UniqEvent />
+    </main>
+  );
+
 }
 
 export default CustomerGuard(Home);
