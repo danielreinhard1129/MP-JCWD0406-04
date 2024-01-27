@@ -1,18 +1,16 @@
 'use client';
 
-import Image from 'next/image';
 import axios, { AxiosError } from 'axios';
 import { useFormik } from 'formik';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
-import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '@/lib/hooks';
-import { loginAction } from '@/lib/features/userSlice';
-import { Toast } from 'flowbite-react';
 import EventShowcase from '@/components/EventShowcase';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AuthGuard } from '@/lib/HOC/AuthGuard';
+import { baseUrl } from '@/lib/baseUrl';
 
 YupPassword(yup);
 
@@ -24,7 +22,6 @@ const validationSchema = yup.object().shape({
 });
 
 const CardForgotPassword = () => {
-  const baseUrl = 'http://localhost:8000/api';
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -39,11 +36,16 @@ const CardForgotPassword = () => {
         const { data } = await axios.post(baseUrl + '/users/forgot-password', {
           email,
         });
+        toast.success('email forgot passsword send successfully', {
+          position: 'top-center',
+          autoClose: 2000,
+          theme: 'light',
+          hideProgressBar: true,
+        });
 
-        alert('email forgot passsword send successfully');
-        router.push('/');
-
-        //   console.log(userData);
+        setTimeout(() => {
+          router.push('/');
+        }, 2000);
       } catch (error) {
         if (error instanceof AxiosError) {
           const errorMsg = error.response?.data || error.message;
@@ -53,8 +55,12 @@ const CardForgotPassword = () => {
     },
   });
   return (
-    <div className="flex h-screen w-full">
-      <div className="w-1/2 p-56 pt-40" style={{ background: '#F7F7F7' }}>
+    <div className="flex md:h-screen w-full">
+      <ToastContainer />
+      <div
+        className="md:w-1/2 md:p-56 md:pt-40 w-full p-4"
+        style={{ background: '#F7F7F7' }}
+      >
         <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-6 leading-tight">
           Forgot Password?
         </h1>
@@ -106,4 +112,4 @@ const CardForgotPassword = () => {
   );
 };
 
-export default CardForgotPassword;
+export default AuthGuard(CardForgotPassword);

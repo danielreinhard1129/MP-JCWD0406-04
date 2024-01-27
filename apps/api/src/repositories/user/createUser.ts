@@ -12,7 +12,6 @@ export const createUser = async (data: IUser) => {
         firstName,
         lastName,
         password,
-
         referralCode,
         role: {
           create: { name: role.name },
