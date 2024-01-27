@@ -4,11 +4,15 @@ import axios, { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import EventShowcase from '../../../components/EventShowcase';
-import { useAppSelector } from '@/lib/hooks';
+import { ToastContainer, toast } from 'react-toastify';
+import { Alert } from 'flowbite-react';
+import 'react-toastify/dist/ReactToastify.css';
+import { AuthGuard } from '@/lib/HOC/AuthGuard';
+import { baseUrl } from '@/lib/baseUrl';
 
 YupPassword(yup);
 
@@ -37,22 +41,11 @@ const validationSchema = yup.object().shape({
 });
 
 const CardRegister = () => {
-  const selector = useAppSelector((state) => state.user);
-
-  const baseUrl = 'http://localhost:8000/api';
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showFullForm, setShowFullForm] = useState(false);
   const [inputReferral, setInputReferral] = useState('');
-
-  useEffect(() => {
-    if (selector.role.name === 'customer') {
-      router.push('/');
-    }
-    if (selector.role.name === 'promoter') {
-      router.push('/promoters');
-    }
-  }, [selector]);
+  const [showAlert, setShowAlert] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -78,11 +71,18 @@ const CardRegister = () => {
           },
           referralCode: inputReferral,
         });
-        alert('Register Success');
-        router.push('/login');
+        toast.success('Register Success', {
+          position: 'top-center',
+          autoClose: 2000,
+          theme: 'light',
+        });
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
       } catch (error) {
         if (error instanceof AxiosError) {
           const errorMsg = error.response?.data || error.message;
+
           alert(errorMsg);
         }
       }
@@ -95,10 +95,20 @@ const CardRegister = () => {
         referralCode: inputReferral,
       });
       console.log(data);
-      alert('referral code is found');
+      toast.success('Referral code is found', {
+        position: 'top-center',
+        autoClose: 1000,
+        theme: 'light',
+        hideProgressBar: true,
+      });
     } catch (error) {
       console.log(error);
-      alert('referral code is not found');
+      toast.error('Referral code is not found', {
+        position: 'top-center',
+        autoClose: 1000,
+        theme: 'light',
+        hideProgressBar: true,
+      });
     }
   };
 
@@ -108,23 +118,28 @@ const CardRegister = () => {
         const { data } = await axios.get(
           baseUrl + `/users/${formik.values.email}`,
         );
-
-        alert('silakan login bro akun sudah ada');
+        setShowAlert(true);
       }
     } catch (error) {
       console.log(error);
 
       setShowFullForm(true);
+      setShowAlert(false);
     }
   };
 
   return (
-    <div className="flex h-screen w-full">
-      <div className="w-1/2 p-56 pt-40" style={{ background: '#F7F7F7' }}>
-        <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+    <div className="md:flex md:h-screen  w-full">
+      <ToastContainer />
+      <div
+        className="md:w-1/2 md:p-56 p-4  md:pt-40"
+        style={{ background: '#F7F7F7' }}
+      >
+        <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-10 leading-tight">
           Create an <br />
           account
         </h1>
+
         <form onSubmit={formik.handleSubmit} style={{ color: '#333' }}>
           <div className="relative mb-4">
             <input
@@ -151,6 +166,17 @@ const CardRegister = () => {
               </p>
             )}
           </div>
+
+          {showAlert && (
+            <Alert color="warning" className="mb-4 border-l-4 ">
+              <span>
+                There is an account associated with the email.{' '}
+                <Link href="/login" className="font-bold hover:underline">
+                  Log in
+                </Link>
+              </span>
+            </Alert>
+          )}
 
           {showFullForm && (
             <>
@@ -302,7 +328,6 @@ const CardRegister = () => {
                   placeholder=" "
                   onChange={(e) => setInputReferral(e.target.value)}
                   value={inputReferral}
-
                 />
                 <label
                   htmlFor="referralCode"
@@ -347,18 +372,13 @@ const CardRegister = () => {
               Create account
             </button>
           )}
-
-          <p className=" mt-4">
-            Already have an account?{' '}
-            <Link href="/login" className="font-bold hover:underline">
-              Log in
-            </Link>
-          </p>
         </form>
       </div>
+      <div />
+
       <EventShowcase />
     </div>
   );
 };
 
-export default CardRegister;
+export default AuthGuard(CardRegister);

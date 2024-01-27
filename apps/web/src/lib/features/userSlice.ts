@@ -7,6 +7,7 @@ export interface UserState {
   email: String;
   isDeleted: Boolean;
   role: IRole;
+  firstName: String;
 }
 
 export interface IRole {
@@ -21,6 +22,7 @@ const initialState: UserState = {
   email: '',
   isDeleted: false,
   role: { id: 0, name: '', userId: 0 },
+  firstName: '',
 };
 
 export const userSlice = createSlice({
@@ -31,12 +33,14 @@ export const userSlice = createSlice({
     loginAction: (state, action: PayloadAction<UserState>) => {
       state.id = action.payload.id;
       state.email = action.payload.email;
+      state.firstName = action.payload.firstName;
       state.isDeleted = action.payload.isDeleted;
       state.role.name = action.payload.role.name;
     },
     logoutAction: (state) => {
       state.id = 0;
       state.email = '';
+      state.firstName = '';
       state.isDeleted = false;
       state.role.name = '';
     },
