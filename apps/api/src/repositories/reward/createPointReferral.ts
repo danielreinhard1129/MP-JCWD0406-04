@@ -3,11 +3,11 @@ import { IReferralPoints } from '@/types/reward.type';
 
 export const createPointReferral = async (data: IReferralPoints) => {
   try {
-    const { referrerUserId, referredUserId, pointEarned, expiresOn } = data;
+    const { userId, pointEarned, expiresOn } = data;
     const result = await prisma.referralPoints.create({
       data: {
-        referrerUserId,
-        referredUserId,
+        userId,
+
         pointEarned,
         expiresOn,
       },

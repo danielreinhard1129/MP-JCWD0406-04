@@ -13,6 +13,7 @@ export const keepLoginAction = async (email: string) => {
     const dataWithoutPassword = excludeFields(user, ['password']);
 
     return {
+      status:200,
       message: 'keeplogin success',
       data: dataWithoutPassword,
     };

@@ -1,8 +1,13 @@
 'use client';
 import { CustomerGuard } from '@/lib/HOC/CustomerGuard';
+import LandingPage from './landingpage/LandingPage';
 
 function Home() {
-  return <main className="container max-w-7xl px-4 mx-auto"></main>;
+  return (
+    <main>
+      <LandingPage />
+    </main>
+  );
 }
 
 export default CustomerGuard(Home);
