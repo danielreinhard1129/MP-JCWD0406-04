@@ -1,7 +1,6 @@
 'use client';
 import { CustomerGuard } from '@/lib/HOC/CustomerGuard';
 
-
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
 import { useEffect } from 'react';
@@ -28,7 +27,4 @@ export default function Home() {
       <UniqEvent />
     </main>
   );
-
 }
-
-export default CustomerGuard(Home);

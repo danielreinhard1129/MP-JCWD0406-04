@@ -1,6 +1,8 @@
 import React from 'react';
 
-const AboutEvent = () => {
+const AboutEvent = ({ event }: any) => {
+  console.log(event, 'about event pepek');
+
   return (
     <section>
       <div>
