@@ -3,8 +3,15 @@ import { MdDateRange, MdAccessTime, MdEventNote } from 'react-icons/md';
 import { format } from 'date-fns';
 
 const AdditionalInformation = ({ event }: any) => {
-  const startDate = format(new Date(event.startDate), 'dd MMMM yyyy');
-  const endDate = format(new Date(event.endDate), 'dd MMMM yyyy');
+  console.log("fwfwfwf",event.startDate);
+  
+  let startDate = '';
+  let endDate = ''
+  if(event?.startDate && event?.endDate){
+    startDate = format(new Date(event?.startDate), 'dd MMMM yyyy');
+    endDate = format(new Date(event?.endDate), 'dd MMMM yyyy');
+  }
+
 
   return (
     <section className="py-6">
@@ -26,7 +33,7 @@ const AdditionalInformation = ({ event }: any) => {
           <div>
             <h3 className="font-semibold">Perforamance Date</h3>
             <p>
-              {startDate} - {endDate}
+              {startDate} {"-"} {endDate}
             </p>
           </div>
         </div>
