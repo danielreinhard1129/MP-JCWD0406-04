@@ -1,4 +1,5 @@
 import { getAllEventAction } from '@/actions/event/getAllEventAction';
+import { getEventByIdAction } from '@/actions/event/getEventByIdAction';
 import { getThisEventDiscoveryAction } from '@/actions/event/getEventDiscoveryAction';
 import { getThisEventsAction } from '@/actions/event/getThisEventAction';
 import { NextFunction, Request, Response } from 'express';
@@ -29,6 +30,19 @@ export class EventController {
   async getEventInThisWeek(req: Request, res: Response, next: NextFunction) {
     try {
       const events = await getThisEventsAction();
+
+      return res.status(events?.status).send(events);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getEventId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      console.log(id, 'test id kontollll');
+
+      const events = await getEventByIdAction(Number(id));
 
       return res.status(events?.status).send(events);
     } catch (error) {
