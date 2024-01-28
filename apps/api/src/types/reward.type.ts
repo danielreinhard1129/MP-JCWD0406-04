@@ -9,8 +9,7 @@ export interface ICouponDiscount {
 
 export interface IReferralPoints {
   id?: number;
-  referrerUserId: number;
-  referredUserId: number;
+  userId: number;
   pointEarned: number;
   dateEarned?: Date;
   expiresOn: Date;

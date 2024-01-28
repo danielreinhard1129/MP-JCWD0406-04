@@ -13,6 +13,7 @@ export class EventRouter {
 
   private intializeRoutes(): void {
     this.router.get('/events', this.eventController.getAllEvent);
+    this.router.get('/event/:id', this.eventController.getEventId);
     this.router.get(
       '/events-thisweekend',
       this.eventController.getEventInThisWeek,

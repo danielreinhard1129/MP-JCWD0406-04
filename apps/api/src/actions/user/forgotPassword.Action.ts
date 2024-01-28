@@ -1,9 +1,5 @@
-import { excludeFields } from '@/helpers/excludeFields';
-import { comparePasswords, hashPassword } from '@/lib/bcrypt';
 import { createToken } from '@/lib/jwt';
-import { nanoid } from '@/lib/nanoid';
 import { transporter } from '@/lib/nodemailer';
-
 import { findUserByEmail } from '@/repositories/user/findUserByEmail';
 
 export const forgotPasswordAction = async (email: string) => {

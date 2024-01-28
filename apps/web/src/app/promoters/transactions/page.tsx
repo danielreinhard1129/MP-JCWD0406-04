@@ -211,7 +211,9 @@ const Transactions = () => {
                     modalAction === 'accept' ? confirmAccept : confirmDecline
                   }
                 >
-                  Yes, I'm sure
+
+                  {"Yes, I'm sure"}
+
                 </Button>
                 <Button color="gray" onClick={() => setOpenModal(false)}>
                   No, cancel

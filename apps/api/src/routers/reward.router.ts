@@ -16,8 +16,8 @@ export class RewardRouter {
       '/check-referralcode',
       this.rewardController.checkReferralCode,
     );
+    this.router.get('/points/:userId', this.rewardController.getPointByUserId);
   }
-
   getRouter(): Router {
     return this.router;
   }
