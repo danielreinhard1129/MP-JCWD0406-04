@@ -1,21 +1,22 @@
 import Image from 'next/image';
 import React from 'react';
+import { format } from 'date-fns';
+import Category from '@/app/(landingpage)/Components/Category';
 
-const HeroDetail = () => {
+const HeroDetail = ({ event }: any) => {
+  const startDate = format(new Date(event.startDate), 'dd MMMM yyyy');
   return (
     <section>
       <div className="min-w-full min-h-full rounded-3xl overflow-hidden shadow-lg bg-lightbrown ">
         <div className="flex justify-between px-6 pt-4">
           <div className="font-semibold">
-            <p>kota</p>
+            <p>{event.location.city}</p>
           </div>
           <div className="font-semibold pr-10">
-            <p>26 februari</p>
+            <p>{startDate}</p>
           </div>
         </div>
-        <h1 className="px-6 py-4 text-5xl font-mono font-bold">
-          THEATER ROUNDUP: AUTUMN 2023
-        </h1>
+        <h1 className="px-6 py-4 text-5xl font-mono font-bold"></h1>
         <div className="container w-full h-[400px] relative ">
           <Image
             className="object-cover px-6 rounded-[40px] "
@@ -26,7 +27,11 @@ const HeroDetail = () => {
           />
         </div>
         <div className="px-6 py-6 ">
-          <p className="text-gray-700 text-base">Lorem ipsum dolor sit amet,</p>
+          <div className=" flex gap-2">
+            {event.Event_category?.map((value: any) => {
+              return <Category key={value.id} value={value} />;
+            })}
+          </div>
         </div>
       </div>
     </section>

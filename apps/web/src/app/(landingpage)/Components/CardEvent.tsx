@@ -9,7 +9,6 @@ interface ICardEvent {
 }
 
 const CardEvent: React.FC<ICardEvent> = ({ event }) => {
-  console.log('pepek', event);
   const date = format(new Date(event.startDate), 'dd MMMM yyyy');
   const formattedPrice = new Intl.NumberFormat('id-ID', {
     style: 'currency',

@@ -17,7 +17,7 @@ const CardEventUniq: React.FC<ICardEvent> = ({ event }) => {
   }).format(event.price);
   return (
     <section>
-      <Link href={`${event.id}`}>
+      <Link href={`/event/${event.id}`}>
         <div className="max-w-sm rounded-3xl min-h-full overflow-hidden shadow-lg bg-lightbrown group transform cursor-pointer  border  transition-colors duration-300 hover:border-transparent hover:bg-orangee">
           <div className="flex justify-between px-6 py-4">
             <div className="font-semibold">
