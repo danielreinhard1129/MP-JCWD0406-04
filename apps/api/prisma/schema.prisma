@@ -21,18 +21,22 @@ model Sample {
 }
 
 model User {
-  id             Int              @id @default(autoincrement())
-  email          String           @unique
+
+  id             Int             @id @default(autoincrement())
+  email          String          @unique
+
   firstName      String
   lastName       String
-  referralCode   String           @unique
-  password       String           @unique
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  isDeleted      Boolean          @default(false)
+  referralCode   String          @unique
+  password       String          @unique
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  isDeleted      Boolean         @default(false)
   role           Role?
   CouponDiscount CouponDiscount?
-  ReferralPoints ReferralPoints[] @relation("Referrer")
+
+  points         ReferralPoints?
+
   Event          Event[]
 }
 
@@ -64,12 +68,14 @@ model Location {
   Event     Event[]
 }
 
+
 model Event_category {
   id         Int      @id @default(autoincrement())
   categoryId Int
   eventId    Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
 
   category Category @relation(fields: [categoryId], references: [id])
   event    Event    @relation(fields: [eventId], references: [id])
@@ -103,11 +109,13 @@ model CouponDiscount {
 }
 
 model ReferralPoints {
-  id             Int      @id @default(autoincrement())
-  referrerUserId Int
-  referredUserId Int      @unique
-  pointEarned    Int
-  dateEarned     DateTime @default(now())
-  expiresOn      DateTime
-  referrerUser   User     @relation("Referrer", fields: [referrerUserId], references: [id])
+
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  pointEarned Int
+  dateEarned  DateTime @default(now())
+  expiresOn   DateTime
+  isUsed      Boolean  @default(false)
+  user        User     @relation(fields: [userId], references: [id])
+
 }

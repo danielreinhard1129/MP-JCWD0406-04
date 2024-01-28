@@ -60,7 +60,7 @@ const CardRegister = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await axios.post(baseUrl + '/users/register', {
+        const data = await axios.post(baseUrl + '/users/register', {
           email: values.email,
           confirmEmail: values.confirmEmail,
           firstName: values.firstName,
@@ -71,6 +71,10 @@ const CardRegister = () => {
           },
           referralCode: inputReferral,
         });
+
+        console.log(data);
+
+
         toast.success('Register Success', {
           position: 'top-center',
           autoClose: 2000,
@@ -80,8 +84,12 @@ const CardRegister = () => {
           router.push('/login');
         }, 2000);
       } catch (error) {
+        console.log(error);
+
         if (error instanceof AxiosError) {
-          const errorMsg = error.response?.data || error.message;
+
+          const errorMsg = error.response?.data.message || error.message;
+
 
           alert(errorMsg);
         }
@@ -89,28 +97,6 @@ const CardRegister = () => {
     },
   });
 
-  const handleCheck = async () => {
-    try {
-      const data = await axios.post(baseUrl + `/reward/check-referralcode`, {
-        referralCode: inputReferral,
-      });
-      console.log(data);
-      toast.success('Referral code is found', {
-        position: 'top-center',
-        autoClose: 1000,
-        theme: 'light',
-        hideProgressBar: true,
-      });
-    } catch (error) {
-      console.log(error);
-      toast.error('Referral code is not found', {
-        position: 'top-center',
-        autoClose: 1000,
-        theme: 'light',
-        hideProgressBar: true,
-      });
-    }
-  };
 
   const handleContinue = async () => {
     try {
@@ -335,13 +321,6 @@ const CardRegister = () => {
                 >
                   Referral Code (optional)
                 </label>
-                <button
-                  className="border-2 ml-4 rounded-lg p-2 text-sm"
-                  onClick={handleCheck}
-                  type="button"
-                >
-                  Check
-                </button>
               </div>
             </>
           )}
