@@ -14,11 +14,12 @@ import PageEventDetail from '../Componnents/PageEventDetail';
 const EventDetail = () => {
   const [event, setEvent] = useState([]);
   const params = useParams();
+console.log(event);
 
   const getEvent = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/events/event/${params.id}`);
-      setEvent(response.data.data);
+      const {data} = await axios.get(`${baseUrl}/events/event/${params.id}`);
+      setEvent(data.data);
     } catch (error) {
       console.log(error);
     }
