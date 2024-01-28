@@ -13,3 +13,5 @@ function Home() {
     </main>
   );
 }
+
+export default CustomerGuard(Home);

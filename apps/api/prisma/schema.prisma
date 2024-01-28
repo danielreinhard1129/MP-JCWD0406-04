@@ -21,9 +21,8 @@ model Sample {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-
+  id             Int             @id @default(autoincrement())
+  email          String          @unique
   firstName      String
   lastName       String
   referralCode   String          @unique
@@ -33,14 +32,12 @@ model User {
   isDeleted      Boolean         @default(false)
   role           Role?
   CouponDiscount CouponDiscount?
-
-  points ReferralPoints?
-
-  Event       Event[]
-  Transaction Transaction[]
-  UserReward  UserReward[]
-  UserVoucher UserVoucher[]
-  Voucher     Voucher[]
+  points         ReferralPoints?
+  Event          Event[]
+  Transaction    Transaction[]
+  UserReward     UserReward[]
+  UserVoucher    UserVoucher[]
+  Voucher        Voucher[]
 }
 
 model Event {
