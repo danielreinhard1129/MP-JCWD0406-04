@@ -7,9 +7,7 @@ import UniqEvent from './(landingpage)/Components/UniqEvent';
 function Home() {
   return (
     <main>
-      <Hero />
-      <ThisEvent />
-      <UniqEvent />
+      <LandingPage />
     </main>
   );
 }
