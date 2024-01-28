@@ -1,14 +1,15 @@
 'use client';
 import { CustomerGuard } from '@/lib/HOC/CustomerGuard';
-
-
-import LandingPage from './landingpage/LandingPage';
+import Hero from './(landingpage)/Components/Hero';
+import ThisEvent from './(landingpage)/Components/ThisEvent';
+import UniqEvent from './(landingpage)/Components/UniqEvent';
 
 function Home() {
-
   return (
     <main>
       <LandingPage />
     </main>
   );
 }
+
+export default CustomerGuard(Home);
