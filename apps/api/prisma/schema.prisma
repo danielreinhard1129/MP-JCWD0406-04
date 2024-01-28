@@ -21,8 +21,10 @@ model Sample {
 }
 
 model User {
+
   id             Int             @id @default(autoincrement())
   email          String          @unique
+
   firstName      String
   lastName       String
   referralCode   String          @unique
@@ -32,7 +34,9 @@ model User {
   isDeleted      Boolean         @default(false)
   role           Role?
   CouponDiscount CouponDiscount?
+
   points         ReferralPoints?
+
   Event          Event[]
 }
 
@@ -64,12 +68,14 @@ model Location {
   Event     Event[]
 }
 
+
 model Event_category {
   id         Int      @id @default(autoincrement())
   categoryId Int
   eventId    Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
 
   category Category @relation(fields: [categoryId], references: [id])
   event    Event    @relation(fields: [eventId], references: [id])
@@ -103,6 +109,7 @@ model CouponDiscount {
 }
 
 model ReferralPoints {
+
   id          Int      @id @default(autoincrement())
   userId      Int      @unique
   pointEarned Int
@@ -110,4 +117,5 @@ model ReferralPoints {
   expiresOn   DateTime
   isUsed      Boolean  @default(false)
   user        User     @relation(fields: [userId], references: [id])
+
 }

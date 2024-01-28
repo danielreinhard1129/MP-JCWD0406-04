@@ -1,10 +1,25 @@
-import { Button } from 'flowbite-react';
+'use client';
 import Image from 'next/image';
-import React from 'react';
-import { FiSearch } from 'react-icons/fi';
-import AutoComplete from './AutoComplete';
+import axios from 'axios';
+import { baseUrl } from '@/app/utils/baseUrl';
+import { useEffect, useState } from 'react';
+import AutoComplete from '@/app/(landingpage)/Components/AutoComplete';
 
-const Hero = () => {
+const HeroDiscovery = () => {
+  const [events, setEvents] = useState([]);
+  const getAllEvents = async () => {
+    try {
+      const reponse = await axios.get(`${baseUrl}/events/events-discovery`);
+      setEvents(reponse.data.data);
+      console.log('dataaa', reponse.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllEvents();
+  }, []);
   return (
     <section className="item-center top-0  flex  flex-col xl:min-h-screen ">
       <div className="relative w-full ">
@@ -37,7 +52,7 @@ const Hero = () => {
               From iconic attractions to amazing experience, what will you book
               next?
             </h2>
-            <AutoComplete />
+            <AutoComplete event={events} />
           </div>
         </div>
       </div>
@@ -45,4 +60,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default HeroDiscovery;

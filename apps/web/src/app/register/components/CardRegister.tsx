@@ -71,7 +71,9 @@ const CardRegister = () => {
           },
           referralCode: inputReferral,
         });
+
         console.log(data);
+
 
         toast.success('Register Success', {
           position: 'top-center',
@@ -85,13 +87,16 @@ const CardRegister = () => {
         console.log(error);
 
         if (error instanceof AxiosError) {
+
           const errorMsg = error.response?.data.message || error.message;
+
 
           alert(errorMsg);
         }
       }
     },
   });
+
 
   const handleContinue = async () => {
     try {
