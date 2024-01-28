@@ -1,9 +1,5 @@
 import { Sidebar } from 'flowbite-react';
-import {
-  HiChartPie,
-  HiSpeakerphone,
-  HiUserGroup,
-} from 'react-icons/hi';
+import { HiChartPie, HiSpeakerphone, HiUserGroup } from 'react-icons/hi';
 import { FaCartShopping } from 'react-icons/fa6';
 import { MdAnalytics } from 'react-icons/md';
 
@@ -26,13 +22,6 @@ const SidebarPromoter = ({ activeLink }: any) => {
               active={activeLink === 'events'}
             >
               Events
-            </Sidebar.Item>
-            <Sidebar.Item
-              href="/promoters/attendees"
-              icon={HiUserGroup}
-              active={activeLink === 'attendees'}
-            >
-              Attendees
             </Sidebar.Item>
             <Sidebar.Item
               href="/promoters/transactions"
